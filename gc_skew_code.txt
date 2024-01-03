@@ -1,0 +1,37 @@
+def plot_gc_skew(sequence):
+    gc_skew = [0]
+    gc_count = 0
+
+    for base in sequence:
+        if base == 'G':
+            gc_count += 1
+        elif base == 'C':
+            gc_count -= 1
+
+        gc_skew.append(gc_count)
+
+    # Plotting
+    x_values = range(len(sequence) + 1)
+    plt.plot(x_values, gc_skew, label='G-C Skew')
+
+    plt.title('G-C Skew Plot')
+    plt.xlabel('Position in Sequence')
+    plt.ylabel('G-C Skew')
+    plt.legend()
+    plt.show()
+
+fasta_filename = r'C:\Users\Ahir\Downloads\sequence (3).fasta'
+
+try:
+    with open(fasta_filename, 'r') as file:
+        # Read the FASTA file (assuming one sequence in the file)
+        lines = file.readlines()[1:]
+        dna_sequence = ''.join([line.strip() for line in lines])
+
+        # Plot the G-C skew
+        plot_gc_skew(dna_sequence)
+
+except FileNotFoundError:
+    print(f"Error: File '{fasta_filename}' not found.")
+except Exception as e:
+    print(f"An error occurred: {e}")
